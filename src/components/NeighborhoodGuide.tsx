@@ -9,7 +9,7 @@ interface NeighborhoodGuideProps {
 
 export const NeighborhoodGuide: React.FC<NeighborhoodGuideProps> = ({ onSelectArea }) => {
   return (
-    <section className="py-16 sm:py-24 bg-white text-[#0A0A0A] border-t border-[#0A0A0A]">
+    <section className="gsap-neighborhood-section py-16 sm:py-24 bg-white text-[#0A0A0A] border-t border-[#0A0A0A]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div className="text-center max-w-2xl mx-auto mb-16">
@@ -29,7 +29,7 @@ export const NeighborhoodGuide: React.FC<NeighborhoodGuideProps> = ({ onSelectAr
           {NEIGHBORHOODS.map((nh) => (
             <div
               key={nh.name}
-              className="group bg-white border border-[#0A0A0A] rounded-none overflow-hidden hover:border-[#0A0A0A]/40 transition-all duration-300 flex flex-col justify-between shadow-none"
+              className="gsap-neighborhood-card group bg-white border border-[#0A0A0A] rounded-none overflow-hidden hover:border-[#0A0A0A]/40 transition-all duration-300 flex flex-col justify-between shadow-none"
             >
               {/* Image & Header */}
               <div className="relative aspect-[16/10] overflow-hidden bg-white">

@@ -39,7 +39,11 @@ export const AgentSection: React.FC = () => {
         </div>
 
         {/* Profile Card Grid */}
-        <div className="bg-white border border-[#0A0A0A] rounded-none p-6 sm:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center shadow-none mb-16">
+        <div className="gsap-agent-card bg-white border border-[#0A0A0A] rounded-none p-6 sm:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center shadow-none mb-16 relative overflow-hidden">
+          {/* Liquid Fluid Card Background Effects */}
+          <div className="absolute -top-12 -right-12 w-64 h-64 bg-[#FFD600]/30 rounded-full blur-2xl pointer-events-none animate-liquid-blob" />
+          <div className="absolute -bottom-16 -left-12 w-56 h-56 bg-[#FFD600]/25 rounded-full blur-2xl pointer-events-none animate-liquid-blob-slow" />
+          <div className="absolute inset-0 pointer-events-none opacity-30 animate-liquid-shimmer" />
           
           {/* Agent Photo */}
           <div className="lg:col-span-5 relative">
@@ -125,7 +129,7 @@ export const AgentSection: React.FC = () => {
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-5 py-2.5 rounded-sm bg-[#0A0A0A] hover:bg-[#333333] text-[#0A0A0A] text-xs font-semibold flex items-center gap-2 transition-all shadow-none"
+                className="px-5 py-2.5 rounded-sm bg-[#0A0A0A] hover:bg-[#333333] text-[#FFD600] text-xs font-semibold flex items-center gap-2 transition-all shadow-none"
               >
                 <MessageSquare className="w-4 h-4" />
                 <span>Direct WhatsApp Consultation</span>
@@ -145,14 +149,14 @@ export const AgentSection: React.FC = () => {
         </div>
 
         {/* Testimonials */}
-        <div>
+        <div className="gsap-testimonials-container">
           <h3 className="text-xl font-sans font-black uppercase tracking-tighter text-[#0A0A0A] mb-8 text-center">
             Client Experiences & Diaspora Feedback
           </h3>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {TESTIMONIALS.map((test) => (
-              <div key={test.id} className="bg-white border border-[#0A0A0A] rounded-sm p-6 flex flex-col justify-between">
+              <div key={test.id} className="gsap-testimonial-card bg-white border border-[#0A0A0A] rounded-sm p-6 flex flex-col justify-between">
                 <div>
                   <div className="flex items-center gap-1 text-[#0A0A0A] mb-3">
                     {[...Array(test.rating)].map((_, i) => (

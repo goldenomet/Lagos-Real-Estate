@@ -3,7 +3,67 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Google AI Studio App</title>
+    <title>Naija Prime Realty - Lagos Luxury Real Estate</title>
+    <script>
+      (function() {
+        try {
+          var target = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : null);
+          if (!target) return;
+
+          var originalFetch = target.fetch;
+          var storedFetch = typeof originalFetch === 'function' ? originalFetch.bind(target) : null;
+
+          function getFetch() {
+            return storedFetch;
+          }
+
+          function setFetch(val) {
+            storedFetch = val;
+          }
+
+          // Traverse all prototypes of target and attach a valid setter
+          var curr = target;
+          while (curr) {
+            try {
+              var desc = Object.getOwnPropertyDescriptor(curr, 'fetch');
+              if (desc && desc.configurable) {
+                Object.defineProperty(curr, 'fetch', {
+                  get: getFetch,
+                  set: setFetch,
+                  configurable: true,
+                  enumerable: true
+                });
+              }
+            } catch (e) {}
+            try {
+              curr = Object.getPrototypeOf(curr);
+            } catch (e) {
+              break;
+            }
+          }
+
+          var targetsToPatch = [target];
+          if (typeof Window !== 'undefined' && Window.prototype) {
+            targetsToPatch.push(Window.prototype);
+          }
+          if (typeof globalThis !== 'undefined' && globalThis !== target) {
+            targetsToPatch.push(globalThis);
+          }
+
+          for (var i = 0; i < targetsToPatch.length; i++) {
+            var t = targetsToPatch[i];
+            try {
+              Object.defineProperty(t, 'fetch', {
+                get: getFetch,
+                set: setFetch,
+                configurable: true,
+                enumerable: true
+              });
+            } catch (err) {}
+          }
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

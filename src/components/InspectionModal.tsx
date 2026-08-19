@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Property, InspectionBooking } from '../types';
 import { AGENT_PROFILE } from '../data/properties';
 import { generateWhatsAppLink, formatFullNaira } from '../utils/formatters';
+import { motion, AnimatePresence } from 'motion/react';
 import { X, Calendar, Clock, Video, MapPin, CheckCircle2, User, Phone, Mail, MessageSquare } from 'lucide-react';
 
 interface InspectionModalProps {
@@ -34,8 +35,22 @@ export const InspectionModal: React.FC<InspectionModalProps> = ({
   const whatsappUrl = generateWhatsAppLink(AGENT_PROFILE.whatsapp, waMessage);
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-[#FFD600]/90 backdrop-blur-md flex items-center justify-center p-3 sm:p-6">
-      <div className="bg-white border border-[#0A0A0A] rounded-none w-full max-w-lg overflow-hidden shadow-none text-[#0A0A0A] p-6 space-y-6">
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      onClick={onClose}
+      className="fixed inset-0 z-50 overflow-y-auto bg-[#0A0A0A]/70 backdrop-blur-md flex items-center justify-center p-3 sm:p-6"
+    >
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.95, y: 15 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 15 }}
+        transition={{ type: 'spring', damping: 25, stiffness: 320 }}
+        onClick={(e) => e.stopPropagation()}
+        className="bg-white border border-[#0A0A0A] rounded-none w-full max-w-lg overflow-hidden shadow-2xl text-[#0A0A0A] p-6 space-y-6"
+      >
         
         {/* Modal Header */}
         <div className="flex items-center justify-between pb-4 border-b border-[#0A0A0A]">
@@ -50,7 +65,7 @@ export const InspectionModal: React.FC<InspectionModalProps> = ({
 
           <button
             onClick={onClose}
-            className="p-2 rounded-sm bg-white hover:bg-[#0A0A0A] hover:text-[#FFD600] text-gray-700 transition-colors"
+            className="p-2 rounded-sm bg-white hover:bg-[#0A0A0A] hover:text-[#FFD600] text-gray-700 transition-colors border border-[#0A0A0A]"
           >
             <X className="w-5 h-5" />
           </button>
@@ -58,9 +73,13 @@ export const InspectionModal: React.FC<InspectionModalProps> = ({
 
         {submitted ? (
           /* Confirmation View */
-          <div className="text-center py-6 space-y-4">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="text-center py-6 space-y-4"
+          >
             <div className="w-16 h-16 bg-emerald-500/10 border border-[#0A0A0A]/30 rounded-none flex items-center justify-center mx-auto text-[#0A0A0A]">
-              <CheckCircle2 className="w-8 h-8" />
+              <CheckCircle2 className="w-8 h-8 text-green-600" />
             </div>
 
             <h3 className="text-xl font-sans font-black uppercase tracking-tighter text-[#0A0A0A]">
@@ -68,7 +87,7 @@ export const InspectionModal: React.FC<InspectionModalProps> = ({
             </h3>
 
             <p className="text-xs text-gray-700 max-w-sm mx-auto font-normal leading-relaxed">
-              Thank you, <strong className="text-[#0A0A0A]">{clientName}</strong>. Principal Lead Babatunde Ademola will confirm your appointment for <strong className="text-[#0A0A0A]">{date} at {timeSlot}</strong>.
+              Thank you, <strong className="text-[#0A0A0A]">{clientName}</strong>. Principal Lead Babatunde Ademola will confirm your appointment for <strong className="text-[#0A0A0A]">{date || 'the upcoming scheduled slot'} at {timeSlot}</strong>.
             </p>
 
             <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -76,7 +95,7 @@ export const InspectionModal: React.FC<InspectionModalProps> = ({
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full sm:w-auto px-5 py-2.5 rounded-sm bg-[#0A0A0A] hover:bg-[#333333] text-[#0A0A0A] text-xs font-semibold flex items-center justify-center gap-2 transition-colors shadow-none"
+                className="w-full sm:w-auto px-5 py-2.5 rounded-sm bg-[#0A0A0A] hover:bg-[#262626] text-[#FFD600] text-xs font-semibold flex items-center justify-center gap-2 transition-transform hover:scale-105 shadow-none"
               >
                 <MessageSquare className="w-4 h-4" />
                 <span>Confirm on WhatsApp Now</span>
@@ -84,21 +103,21 @@ export const InspectionModal: React.FC<InspectionModalProps> = ({
 
               <button
                 onClick={onClose}
-                className="w-full sm:w-auto px-4 py-2.5 rounded-sm bg-white hover:bg-gray-100 text-gray-800 text-xs font-semibold transition-colors"
+                className="w-full sm:w-auto px-4 py-2.5 rounded-sm bg-white hover:bg-gray-100 text-gray-800 text-xs font-semibold transition-colors border border-[#0A0A0A]"
               >
                 Close Window
               </button>
             </div>
-          </div>
+          </motion.div>
         ) : (
           /* Booking Form */
           <form onSubmit={handleSubmit} className="space-y-4">
             
             {property && (
-              <div className="p-3 bg-[#FFD600] rounded-sm border border-[#0A0A0A] text-xs">
+              <div className="p-3 bg-[#FFD600]/30 rounded-sm border border-[#0A0A0A] text-xs">
                 <span className="text-[10px] uppercase font-bold text-[#0A0A0A] block">Selected Property</span>
                 <span className="font-sans font-black uppercase tracking-tighter text-gray-800 block truncate">{property.title}</span>
-                <span className="text-gray-500 text-[11px] block">{property.location} • {formatFullNaira(property.priceNgn)}</span>
+                <span className="text-gray-600 text-[11px] block">{property.location} • {formatFullNaira(property.priceNgn)}</span>
               </div>
             )}
 
@@ -119,8 +138,8 @@ export const InspectionModal: React.FC<InspectionModalProps> = ({
                     onClick={() => setType(fmt as any)}
                     className={`p-2.5 rounded-sm border text-[11px] font-semibold text-center transition-all ${
                       type === fmt
-                        ? 'bg-[#0A0A0A] text-[#FFD600] border-[#0A0A0A] shadow-none'
-                        : 'bg-[#FFD600] border-[#0A0A0A] text-gray-700 hover:border-[#0A0A0A]'
+                        ? 'bg-[#0A0A0A] text-[#FFD600] border-[#0A0A0A] shadow-sm'
+                        : 'bg-white border-[#0A0A0A]/40 text-gray-700 hover:border-[#0A0A0A]'
                     }`}
                   >
                     {fmt.replace(' Inspection', '').replace(' Tour', '').replace(' Walkthrough', '')}
@@ -139,7 +158,7 @@ export const InspectionModal: React.FC<InspectionModalProps> = ({
                   value={clientName}
                   onChange={(e) => setClientName(e.target.value)}
                   placeholder="e.g., Dr. Chidi Okafor"
-                  className="w-full bg-white border border-[#0A0A0A] rounded-sm p-2.5 text-xs text-[#0A0A0A] focus:outline-none focus:border-[#0A0A0A]"
+                  className="w-full bg-white border border-[#0A0A0A] rounded-sm p-2.5 text-xs text-[#0A0A0A] focus:outline-none focus:ring-1 focus:ring-[#0A0A0A]"
                 />
               </div>
 
@@ -151,7 +170,7 @@ export const InspectionModal: React.FC<InspectionModalProps> = ({
                   value={clientPhone}
                   onChange={(e) => setClientPhone(e.target.value)}
                   placeholder="+234 800 000 0000"
-                  className="w-full bg-white border border-[#0A0A0A] rounded-sm p-2.5 text-xs text-[#0A0A0A] focus:outline-none focus:border-[#0A0A0A]"
+                  className="w-full bg-white border border-[#0A0A0A] rounded-sm p-2.5 text-xs text-[#0A0A0A] focus:outline-none focus:ring-1 focus:ring-[#0A0A0A]"
                 />
               </div>
             </div>
@@ -166,7 +185,7 @@ export const InspectionModal: React.FC<InspectionModalProps> = ({
                   value={clientEmail}
                   onChange={(e) => setClientEmail(e.target.value)}
                   placeholder="name@domain.com"
-                  className="w-full bg-white border border-[#0A0A0A] rounded-sm p-2.5 text-xs text-[#0A0A0A] focus:outline-none focus:border-[#0A0A0A]"
+                  className="w-full bg-white border border-[#0A0A0A] rounded-sm p-2.5 text-xs text-[#0A0A0A] focus:outline-none focus:ring-1 focus:ring-[#0A0A0A]"
                 />
               </div>
 
@@ -177,7 +196,7 @@ export const InspectionModal: React.FC<InspectionModalProps> = ({
                   required
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
-                  className="w-full bg-white border border-[#0A0A0A] rounded-sm p-2.5 text-xs text-[#0A0A0A] focus:outline-none focus:border-[#0A0A0A]"
+                  className="w-full bg-white border border-[#0A0A0A] rounded-sm p-2.5 text-xs text-[#0A0A0A] focus:outline-none focus:ring-1 focus:ring-[#0A0A0A]"
                 />
               </div>
             </div>
@@ -188,7 +207,7 @@ export const InspectionModal: React.FC<InspectionModalProps> = ({
               <select
                 value={timeSlot}
                 onChange={(e) => setTimeSlot(e.target.value)}
-                className="w-full bg-white border border-[#0A0A0A] rounded-sm p-2.5 text-xs text-[#0A0A0A] focus:outline-none focus:border-[#0A0A0A]"
+                className="w-full bg-white border border-[#0A0A0A] rounded-sm p-2.5 text-xs text-[#0A0A0A] focus:outline-none focus:ring-1 focus:ring-[#0A0A0A]"
               >
                 <option value="10:00 AM">10:00 AM Morning</option>
                 <option value="12:00 PM">12:00 PM Noon</option>
@@ -200,7 +219,7 @@ export const InspectionModal: React.FC<InspectionModalProps> = ({
             {/* Submit CTA */}
             <button
               type="submit"
-              className="w-full py-3 rounded-sm bg-[#0A0A0A] hover:bg-[#333333] text-[#0A0A0A] font-bold text-xs uppercase tracking-wider transition-all shadow-none mt-2"
+              className="w-full py-3 rounded-sm bg-[#0A0A0A] hover:bg-[#262626] text-[#FFD600] font-bold text-xs uppercase tracking-wider transition-all hover:scale-[1.01] shadow-none mt-2"
             >
               Confirm Appointment
             </button>
@@ -208,7 +227,8 @@ export const InspectionModal: React.FC<InspectionModalProps> = ({
           </form>
         )}
 
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
+

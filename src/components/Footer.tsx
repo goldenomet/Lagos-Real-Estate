@@ -1,5 +1,5 @@
 import React from 'react';
-import { Building2, MapPin, Phone, Mail, ShieldCheck, MessageSquare, ArrowUpRight } from 'lucide-react';
+import { Landmark, MapPin, Phone, Mail, ShieldCheck, MessageSquare, ArrowUpRight } from 'lucide-react';
 import { AGENT_PROFILE } from '../data/properties';
 import { generateWhatsAppLink } from '../utils/formatters';
 
@@ -18,8 +18,8 @@ export const Footer: React.FC = () => {
           {/* Brand Col */}
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-sm bg-white border border-[#0A0A0A] flex items-center justify-center text-[#0A0A0A]">
-                <Building2 className="w-5 h-5" />
+              <div className="flex items-center justify-center text-red-600">
+                <Landmark className="w-7 h-7" />
               </div>
               <span className="text-lg font-sans font-black uppercase tracking-tighter uppercase text-[#0A0A0A]">
                 NAIJA PRIME <span className="text-[#0A0A0A] font-normal">REALTY</span>

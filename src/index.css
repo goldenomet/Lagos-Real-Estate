@@ -1,1 +1,109 @@
 @import "tailwindcss";
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Hide default cursor on desktop when custom logo cursor is active */
+@media (pointer: fine) {
+  body, button, a, input, select, textarea, [role="button"], .cursor-pointer {
+    cursor: none !important;
+  }
+}
+
+/* Custom smooth scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #FFD600;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #0A0A0A;
+  border-radius: 0px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #262626;
+}
+
+/* Liquid Fluid Animations */
+@keyframes liquidBlob {
+  0%, 100% {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    transform: translate(0px, 0px) scale(1) rotate(0deg);
+  }
+  33% {
+    border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+    transform: translate(30px, -20px) scale(1.08) rotate(45deg);
+  }
+  66% {
+    border-radius: 50% 60% 30% 60% / 30% 70% 40% 70%;
+    transform: translate(-20px, 20px) scale(0.95) rotate(-30deg);
+  }
+}
+
+@keyframes liquidBlobSecondary {
+  0%, 100% {
+    border-radius: 40% 60% 60% 40% / 70% 30% 50% 60%;
+    transform: translate(0px, 0px) scale(1) rotate(0deg);
+  }
+  33% {
+    border-radius: 60% 40% 40% 60% / 40% 70% 60% 40%;
+    transform: translate(-35px, 25px) scale(1.1) rotate(-60deg);
+  }
+  66% {
+    border-radius: 35% 65% 55% 45% / 65% 35% 45% 55%;
+    transform: translate(25px, -15px) scale(0.92) rotate(35deg);
+  }
+}
+
+@keyframes liquidWave {
+  0% {
+    transform: translateX(0) translateZ(0) scaleY(1);
+  }
+  50% {
+    transform: translateX(-25%) translateZ(0) scaleY(0.85);
+  }
+  100% {
+    transform: translateX(-50%) translateZ(0) scaleY(1);
+  }
+}
+
+@keyframes liquidShimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-liquid-blob {
+  animation: liquidBlob 12s ease-in-out infinite;
+}
+
+.animate-liquid-blob-slow {
+  animation: liquidBlobSecondary 16s ease-in-out infinite;
+}
+
+.animate-liquid-wave {
+  animation: liquidWave 8s cubic-bezier(0.445, 0.05, 0.55, 0.95) infinite;
+}
+
+.animate-liquid-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 200% 100%;
+  animation: liquidShimmer 4s infinite linear;
+}
+

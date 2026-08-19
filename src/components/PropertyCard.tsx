@@ -26,7 +26,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
   const whatsappUrl = generateWhatsAppLink(property.agentPhone, whatsappMessage);
 
   return (
-    <div className="group bg-white rounded-none overflow-hidden border border-[#0A0A0A] hover:border-[#0A0A0A]/40 transition-all duration-300 flex flex-col justify-between shadow-none hover:shadow-none hover:shadow-black/10">
+    <div className="gsap-property-card group bg-white rounded-none overflow-hidden border border-[#0A0A0A] hover:border-[#0A0A0A]/40 transition-all duration-300 flex flex-col justify-between shadow-none hover:shadow-none hover:shadow-black/10">
       
       {/* Image Container with Badges */}
       <div className="relative aspect-[4/3] overflow-hidden bg-[#FFD600]">
@@ -34,6 +34,12 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
           src={property.mainImage}
           alt={property.title}
           referrerPolicy="no-referrer"
+          onError={(e) => {
+            const target = e.target as HTMLImageElement;
+            if (!target.src.includes('unsplash')) {
+              target.src = 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80';
+            }
+          }}
           className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A]/50 via-transparent to-black/30" />
@@ -44,7 +50,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
             <span className={`px-2.5 py-1 rounded-none text-[10px] font-bold uppercase tracking-wider shadow-none ${
               property.status === 'For Sale' ? 'bg-[#0A0A0A] text-[#FFD600]' :
               property.status === 'For Rent' ? 'bg-[#0A0A0A] text-[#FFD600]' :
-              property.status === 'Shortlet' ? 'bg-[#0A0A0A] text-white' : 'bg-[#0A0A0A] text-white'
+              property.status === 'Shortlet' ? 'bg-[#0A0A0A] text-[#FFD600]' : 'bg-[#0A0A0A] text-[#FFD600]'
             }`}>
               {property.status}
             </span>
@@ -140,7 +146,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
 
             <button
               onClick={() => onSelectProperty(property)}
-              className="px-3.5 py-2 rounded-sm bg-[#0A0A0A] hover:bg-[#333333] text-[#0A0A0A] text-xs font-bold transition-all flex items-center gap-1"
+              className="px-3.5 py-2 rounded-sm bg-[#0A0A0A] hover:bg-[#333333] text-[#FFD600] text-xs font-bold transition-all flex items-center gap-1"
             >
               <span>View</span>
               <ArrowUpRight className="w-3.5 h-3.5" />

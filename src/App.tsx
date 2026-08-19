@@ -11,12 +11,18 @@ import { NeighborhoodGuide } from './components/NeighborhoodGuide';
 import { MortgageCalculatorModal } from './components/MortgageCalculatorModal';
 import { InspectionModal } from './components/InspectionModal';
 import { FavoritesDrawer } from './components/FavoritesDrawer';
+import { CustomCursor } from './components/CustomCursor';
 import { Footer } from './components/Footer';
 import { Building2, Sparkles, PhoneCall, ShieldCheck } from 'lucide-react';
+import { AnimatePresence } from 'motion/react';
+import { useGsapScroll } from './hooks/useGsapScroll';
 
 export default function App() {
   const [currency, setCurrency] = useState<Currency>('NGN');
   const [activeSection, setActiveSection] = useState<'listings' | 'neighborhoods' | 'agent'>('listings');
+
+  // Mount GSAP ScrollTrigger effects
+  useGsapScroll();
 
   // Filter state
   const [filters, setFilters] = useState<FilterState>({
@@ -131,6 +137,11 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#FFD600] text-[#0A0A0A] font-sans selection:bg-[#0A0A0A] selection:text-[#FFD600]">
+      {/* GSAP Scroll Progress Indicator */}
+      <div
+        id="gsap-scroll-progress"
+        className="fixed top-0 left-0 right-0 h-1 bg-[#0A0A0A] z-50 origin-left scale-x-0 transition-transform pointer-events-none"
+      />
       
       {/* Sticky Navigation Bar */}
       <Navbar
@@ -153,6 +164,9 @@ export default function App() {
         <HeroSection
           filters={filters}
           setFilters={setFilters}
+          currency={currency}
+          onSelectProperty={(p) => setSelectedProperty(p)}
+          onBookInspection={handleOpenInspectionForProperty}
           onSearch={() => {
             setActiveSection('listings');
             const el = document.getElementById('listings-container');
@@ -163,7 +177,11 @@ export default function App() {
 
         {/* Section View Switcher */}
         {activeSection === 'listings' && (
-          <section id="listings-container" className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <section id="listings-container" className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+            {/* Liquid Fluid Ambient Backdrops */}
+            <div className="absolute top-1/4 -left-20 w-96 h-96 bg-white/25 rounded-full blur-3xl pointer-events-none animate-liquid-blob" />
+            <div className="absolute bottom-10 -right-20 w-80 h-80 bg-[#0A0A0A]/5 rounded-full blur-3xl pointer-events-none animate-liquid-blob-slow" />
+            <div className="absolute top-2/3 left-1/3 w-72 h-72 bg-white/20 rounded-full blur-2xl pointer-events-none animate-liquid-blob" />
             
             {/* Filter Toolbar */}
             <PropertyFilter
@@ -241,48 +259,58 @@ export default function App() {
       {/* Footer */}
       <Footer />
 
-      {/* Property Detail Modal */}
-      {selectedProperty && (
-        <PropertyDetailModal
-          property={selectedProperty}
-          currency={currency}
-          onClose={() => setSelectedProperty(null)}
-          onBookInspection={(p) => {
-            setSelectedProperty(null);
-            handleOpenInspectionForProperty(p);
-          }}
-        />
-      )}
+      {/* Modals & Drawers with AnimatePresence */}
+      <AnimatePresence>
+        {/* Property Detail Modal */}
+        {selectedProperty && (
+          <PropertyDetailModal
+            key="property-detail-modal"
+            property={selectedProperty}
+            currency={currency}
+            onClose={() => setSelectedProperty(null)}
+            onBookInspection={(p) => {
+              setSelectedProperty(null);
+              handleOpenInspectionForProperty(p);
+            }}
+          />
+        )}
 
-      {/* Mortgage & Rates Calculator Modal */}
-      {isCalculatorOpen && (
-        <MortgageCalculatorModal
-          currency={currency}
-          onClose={() => setIsCalculatorOpen(false)}
-        />
-      )}
+        {/* Mortgage & Rates Calculator Modal */}
+        {isCalculatorOpen && (
+          <MortgageCalculatorModal
+            key="mortgage-calc-modal"
+            currency={currency}
+            onClose={() => setIsCalculatorOpen(false)}
+          />
+        )}
 
-      {/* Inspection Modal */}
-      {isInspectionOpen && (
-        <InspectionModal
-          property={inspectionProperty || undefined}
-          onClose={() => {
-            setIsInspectionOpen(false);
-            setInspectionProperty(null);
-          }}
-        />
-      )}
+        {/* Inspection Modal */}
+        {isInspectionOpen && (
+          <InspectionModal
+            key="inspection-modal"
+            property={inspectionProperty || undefined}
+            onClose={() => {
+              setIsInspectionOpen(false);
+              setInspectionProperty(null);
+            }}
+          />
+        )}
 
-      {/* Saved Favorites Wishlist Drawer */}
-      {isFavoritesOpen && (
-        <FavoritesDrawer
-          favorites={favoriteProperties}
-          currency={currency}
-          onClose={() => setIsFavoritesOpen(false)}
-          onRemoveFavorite={toggleFavorite}
-          onSelectProperty={(p) => setSelectedProperty(p)}
-        />
-      )}
+        {/* Saved Favorites Wishlist Drawer */}
+        {isFavoritesOpen && (
+          <FavoritesDrawer
+            key="favorites-drawer"
+            favorites={favoriteProperties}
+            currency={currency}
+            onClose={() => setIsFavoritesOpen(false)}
+            onRemoveFavorite={toggleFavorite}
+            onSelectProperty={(p) => setSelectedProperty(p)}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Brand Logo Custom Pointer Cursor */}
+      <CustomCursor />
 
     </div>
   );
