@@ -37,6 +37,9 @@ export const NeighborhoodGuide: React.FC<NeighborhoodGuideProps> = ({ onSelectAr
                   src={nh.image}
                   alt={nh.name}
                   referrerPolicy="no-referrer"
+                  onError={(e) => {
+                    (e.currentTarget as HTMLImageElement).src = 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80';
+                  }}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#FFD600] via-[#FFD600]/40 to-transparent" />

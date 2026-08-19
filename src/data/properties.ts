@@ -1,4 +1,7 @@
 import { Property, NeighborhoodInfo } from '../types';
+import heroMansionImg from '../assets/images/lagos_hero_mansion_1785922529173.jpg';
+import penthouseInteriorImg from '../assets/images/lagos_penthouse_interior_1785922551026.jpg';
+import agentProfileImg from '../assets/images/lagos_agent_profile_1785922540192.jpg';
 
 export const AGENT_PROFILE = {
   name: 'Babatunde Ademola',
@@ -12,7 +15,7 @@ export const AGENT_PROFILE = {
   experienceYears: 14,
   salesVolumeNgn: '₦48 Billion+',
   bio: 'Babatunde Ademola is a premier real estate strategist specialising in prime residential acquisitions, off-plan investment portfolio structuring, and high-net-worth real estate transactions across Banana Island, Ikoyi, Victoria Island, and Lekki Phase 1.',
-  avatar: '/src/assets/images/lagos_agent_profile_1785922540192.jpg',
+  avatar: agentProfileImg || '/images/lagos_agent_profile_1785922540192.jpg',
 };
 
 export const EXCHANGE_RATES = {
@@ -36,9 +39,9 @@ export const PROPERTIES: Property[] = [
     sizeSqm: 850,
     parkingSpaces: 6,
     titleDocument: "Governor's Consent",
-    mainImage: '/src/assets/images/lagos_hero_mansion_1785922529173.jpg',
+    mainImage: heroMansionImg || '/images/lagos_hero_mansion_1785922529173.jpg',
     images: [
-      '/src/assets/images/lagos_hero_mansion_1785922529173.jpg',
+      heroMansionImg || '/images/lagos_hero_mansion_1785922529173.jpg',
       'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80',
       'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80',
       'https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1200&q=80'
@@ -80,9 +83,9 @@ export const PROPERTIES: Property[] = [
     sizeSqm: 520,
     parkingSpaces: 3,
     titleDocument: 'Certificate of Occupancy (C of O)',
-    mainImage: '/src/assets/images/lagos_penthouse_interior_1785922551026.jpg',
+    mainImage: penthouseInteriorImg || '/images/lagos_penthouse_interior_1785922551026.jpg',
     images: [
-      '/src/assets/images/lagos_penthouse_interior_1785922551026.jpg',
+      penthouseInteriorImg || '/images/lagos_penthouse_interior_1785922551026.jpg',
       'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80',
       'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80',
       'https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1200&q=80'
@@ -348,7 +351,7 @@ export const NEIGHBORHOODS: NeighborhoodInfo[] = [
     averagePriceRangeNgn: '₦1.2B - ₦4.5B',
     rentalYield: '7% - 9% Per Annum',
     highlights: ['Ultra Security Gate', 'Private Jet Ski Docks', 'Underground Utilities', 'Zero Noise Pollution'],
-    image: '/src/assets/images/lagos_hero_mansion_1785922529173.jpg'
+    image: heroMansionImg || '/images/lagos_hero_mansion_1785922529173.jpg'
   },
   {
     name: 'Ikoyi',
@@ -364,7 +367,7 @@ export const NEIGHBORHOODS: NeighborhoodInfo[] = [
     averagePriceRangeNgn: '₦600M - ₦2.8B',
     rentalYield: '9% - 12% Per Annum (High USD Appeal)',
     highlights: ['Independent Power & Water Grid', 'Great Wall of Lagos Wave Defense', 'Financial Centre District', 'Helipads & Marina'],
-    image: '/src/assets/images/lagos_penthouse_interior_1785922551026.jpg'
+    image: penthouseInteriorImg || '/images/lagos_penthouse_interior_1785922551026.jpg'
   },
   {
     name: 'Lekki Phase 1',

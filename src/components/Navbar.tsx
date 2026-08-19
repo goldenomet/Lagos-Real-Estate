@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { Landmark, Heart, Phone, MessageSquare, Calculator, Compass, ShieldCheck, ChevronDown, Menu } from 'lucide-react';
+import React from 'react';
+import { Landmark, Heart, MessageSquare, Calculator, Compass, ShieldCheck } from 'lucide-react';
 import { Currency } from '../types';
 import { AGENT_PROFILE } from '../data/properties';
 import { generateWhatsAppLink } from '../utils/formatters';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion } from 'motion/react';
 
 interface NavbarProps {
   currency: Currency;
@@ -26,7 +26,6 @@ export const Navbar: React.FC<NavbarProps> = ({
   activeSection,
   setActiveSection
 }) => {
-  const [isToolsOpen, setIsToolsOpen] = useState(false);
   const waMsg = `Hello Babatunde, I am visiting the Naija Prime Realty website and would like to make an inquiry about luxury properties in Lagos.`;
   const whatsappUrl = generateWhatsAppLink(AGENT_PROFILE.whatsapp, waMsg);
 
@@ -62,16 +61,22 @@ export const Navbar: React.FC<NavbarProps> = ({
         {/* Desktop Navigation Links */}
         <nav className="hidden lg:flex items-center gap-8 text-xs font-bold uppercase tracking-widest text-gray-700">
           <button
-            onClick={() => setActiveSection('listings')}
+            onClick={() => {
+              setActiveSection('listings');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
             className={`transition-all hover:text-[#0A0A0A] relative py-1 ${activeSection === 'listings' ? 'text-[#0A0A0A] font-black' : ''}`}
           >
-            Listings
+            Home
             {activeSection === 'listings' && (
               <motion.div layoutId="nav-underline" className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#0A0A0A]" />
             )}
           </button>
           <button
-            onClick={() => setActiveSection('neighborhoods')}
+            onClick={() => {
+              setActiveSection('neighborhoods');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
             className={`transition-all hover:text-[#0A0A0A] flex items-center gap-2 relative py-1 ${activeSection === 'neighborhoods' ? 'text-[#0A0A0A] font-black' : ''}`}
           >
             <Compass className="w-4 h-4" />
@@ -81,7 +86,10 @@ export const Navbar: React.FC<NavbarProps> = ({
             )}
           </button>
           <button
-            onClick={() => setActiveSection('agent')}
+            onClick={() => {
+              setActiveSection('agent');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
             className={`transition-all hover:text-[#0A0A0A] flex items-center gap-2 relative py-1 ${activeSection === 'agent' ? 'text-[#0A0A0A] font-black' : ''}`}
           >
             <ShieldCheck className="w-4 h-4" />
@@ -90,70 +98,29 @@ export const Navbar: React.FC<NavbarProps> = ({
               <motion.div layoutId="nav-underline" className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#0A0A0A]" />
             )}
           </button>
-
-          {/* Tools Dropdown */}
-          <div 
-            className="relative"
-            onMouseEnter={() => setIsToolsOpen(true)}
-            onMouseLeave={() => setIsToolsOpen(false)}
-          >
-            <button className="transition-all hover:text-[#0A0A0A] flex items-center gap-1.5 py-2">
-              Tools <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 ${isToolsOpen ? 'rotate-180 text-[#0A0A0A]' : ''}`} />
-            </button>
-            
-            <AnimatePresence>
-              {isToolsOpen && (
-                <motion.div 
-                  initial={{ opacity: 0, y: 10, scale: 0.98 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: 8, scale: 0.98 }}
-                  transition={{ duration: 0.15 }}
-                  className="absolute top-full left-1/2 -translate-x-1/2 mt-0 w-64 pt-2"
-                >
-                  <div className="bg-white border border-[#0A0A0A] p-5 flex flex-col gap-5 shadow-2xl">
-                    {/* Currency Selector */}
-                    <div>
-                      <span className="block text-[10px] text-gray-500 uppercase tracking-widest mb-3 font-bold">Display Currency</span>
-                      <div className="grid grid-cols-3 gap-1 bg-white border border-[#0A0A0A] p-1">
-                        {(['NGN', 'USD', 'GBP'] as Currency[]).map((curr) => (
-                          <button
-                            key={curr}
-                            onClick={() => setCurrency(curr)}
-                            className={`py-2 text-[10px] font-bold transition-colors uppercase ${
-                              currency === curr
-                                ? 'bg-[#0A0A0A] text-[#FFD600]'
-                                : 'text-gray-600 hover:text-black hover:bg-gray-100'
-                            }`}
-                          >
-                            {curr}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                    
-                    {/* Mortgage Calculator */}
-                    <div>
-                      <span className="block text-[10px] text-gray-500 uppercase tracking-widest mb-3 font-bold">Financials</span>
-                      <button
-                        onClick={() => {
-                          setIsToolsOpen(false);
-                          onOpenCalculator();
-                        }}
-                        className="w-full flex items-center gap-3 px-3 py-2.5 bg-white hover:bg-gray-100 text-gray-800 hover:text-[#0A0A0A] transition-colors border border-[#0A0A0A]"
-                      >
-                        <Calculator className="w-4 h-4 text-[#0A0A0A]" />
-                        <span className="text-xs font-semibold">Mortgage Calculator</span>
-                      </button>
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
         </nav>
 
-        {/* Right Controls: Wishlist, WhatsApp & Inspection CTA */}
-        <div className="flex items-center gap-4 lg:gap-6 shrink-0">
+        {/* Right Controls: Currency Toggle, Wishlist, WhatsApp & Inspection CTA */}
+        <div className="flex items-center gap-3 lg:gap-5 shrink-0">
+          
+          {/* Direct Currency Toggle */}
+          <div className="hidden sm:flex items-center bg-white border border-[#0A0A0A] p-0.5">
+            {(['NGN', 'USD', 'GBP'] as Currency[]).map((curr) => (
+              <button
+                key={curr}
+                onClick={() => setCurrency(curr)}
+                className={`px-2.5 py-1 text-[10px] font-bold uppercase transition-colors ${
+                  currency === curr
+                    ? 'bg-[#0A0A0A] text-[#FFD600]'
+                    : 'text-gray-600 hover:text-black hover:bg-gray-100'
+                }`}
+              >
+                {curr}
+              </button>
+            ))}
+          </div>
+
+          {/* Wishlist Favorites Counter */}
           
           {/* Wishlist Favorites Counter */}
           <button
@@ -195,19 +162,28 @@ export const Navbar: React.FC<NavbarProps> = ({
       {/* Sub-bar for mobile navigation */}
       <div className="lg:hidden flex items-center justify-around bg-[#FFD600] border-t border-[#0A0A0A]/80 py-3 text-[10px] uppercase tracking-widest font-bold text-gray-700">
         <button
-          onClick={() => setActiveSection('listings')}
+          onClick={() => {
+            setActiveSection('listings');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
           className={`px-3 py-2 ${activeSection === 'listings' ? 'text-[#0A0A0A] font-black underline' : ''}`}
         >
           Properties
         </button>
         <button
-          onClick={() => setActiveSection('neighborhoods')}
+          onClick={() => {
+            setActiveSection('neighborhoods');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
           className={`px-3 py-2 ${activeSection === 'neighborhoods' ? 'text-[#0A0A0A] font-black underline' : ''}`}
         >
           Areas
         </button>
         <button
-          onClick={() => setActiveSection('agent')}
+          onClick={() => {
+            setActiveSection('agent');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
           className={`px-3 py-2 ${activeSection === 'agent' ? 'text-[#0A0A0A] font-black underline' : ''}`}
         >
           Advisory

@@ -7,11 +7,13 @@ import { PropertyFilter } from './components/PropertyFilter';
 import { PropertyCard } from './components/PropertyCard';
 import { PropertyDetailModal } from './components/PropertyDetailModal';
 import { AgentSection } from './components/AgentSection';
+import { AdvisoryPage } from './components/AdvisoryPage';
 import { NeighborhoodGuide } from './components/NeighborhoodGuide';
 import { MortgageCalculatorModal } from './components/MortgageCalculatorModal';
 import { InspectionModal } from './components/InspectionModal';
 import { FavoritesDrawer } from './components/FavoritesDrawer';
 import { CustomCursor } from './components/CustomCursor';
+import { AiChatbot } from './components/AiChatbot';
 import { Footer } from './components/Footer';
 import { Building2, Sparkles, PhoneCall, ShieldCheck } from 'lucide-react';
 import { AnimatePresence } from 'motion/react';
@@ -160,20 +162,22 @@ export default function App() {
 
       {/* Main Content Area */}
       <main>
-        {/* Hero Section */}
-        <HeroSection
-          filters={filters}
-          setFilters={setFilters}
-          currency={currency}
-          onSelectProperty={(p) => setSelectedProperty(p)}
-          onBookInspection={handleOpenInspectionForProperty}
-          onSearch={() => {
-            setActiveSection('listings');
-            const el = document.getElementById('listings-container');
-            if (el) el.scrollIntoView({ behavior: 'smooth' });
-          }}
-          totalListingsCount={PROPERTIES.length}
-        />
+        {/* Hero Section (Listings View Only) */}
+        {activeSection === 'listings' && (
+          <HeroSection
+            filters={filters}
+            setFilters={setFilters}
+            currency={currency}
+            onSelectProperty={(p) => setSelectedProperty(p)}
+            onBookInspection={handleOpenInspectionForProperty}
+            onSearch={() => {
+              setActiveSection('listings');
+              const el = document.getElementById('listings-container');
+              if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }}
+            totalListingsCount={PROPERTIES.length}
+          />
+        )}
 
         {/* Section View Switcher */}
         {activeSection === 'listings' && (
@@ -241,17 +245,23 @@ export default function App() {
           <NeighborhoodGuide onSelectArea={handleSelectArea} />
         )}
 
-        {/* Advisory / Agent Section View */}
+        {/* Advisory Full Page View */}
         {activeSection === 'agent' && (
-          <AgentSection />
+          <AdvisoryPage
+            onOpenInspectionModal={() => {
+              setInspectionProperty(null);
+              setIsInspectionOpen(true);
+            }}
+            onExploreListings={() => {
+              setActiveSection('listings');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+          />
         )}
 
-        {/* Show Neighborhoods & Agent below listings if on default view */}
+        {/* Show Agent below listings on home view */}
         {activeSection === 'listings' && (
-          <>
-            <NeighborhoodGuide onSelectArea={handleSelectArea} />
-            <AgentSection />
-          </>
+          <AgentSection />
         )}
 
       </main>
@@ -311,6 +321,9 @@ export default function App() {
 
       {/* Brand Logo Custom Pointer Cursor */}
       <CustomCursor />
+
+      {/* AI Luxury Real Estate Chatbot */}
+      <AiChatbot onOpenInspectionModal={() => setIsInspectionOpen(true)} />
 
     </div>
   );

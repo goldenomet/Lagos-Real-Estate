@@ -1,6 +1,6 @@
 {
   "name": "Naija Prime Realty - Lagos Estate Agency",
-  "description": "A minimalist luxury estate agency website featuring premier residential and commercial properties across Ikoyi, Lekki, Victoria Island, and Ikeja GRA in Lagos State, Nigeria.",
+  "description": "A premier luxury real estate advisory and property showcase platform featuring unencumbered title listings, AI Property Advisor Adunni, multi-currency conversion, and legal due diligence across Banana Island, Ikoyi, Eko Atlantic, and Lekki Phase 1 in Lagos State, Nigeria.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

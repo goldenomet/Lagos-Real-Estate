@@ -102,7 +102,17 @@ export const Footer: React.FC = () => {
         {/* Bottom Legal bar */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500 gap-4">
           <p>© {new Date().getFullYear()} Naija Prime Realty Ltd. All rights reserved. Registered in Nigeria.</p>
-          <p className="text-[11px] font-normal">Minimalist Design inspired by Fine & Country, Buyletlive, and Sujimoto Lagos.</p>
+          <p className="text-[11px] font-normal">
+            Design inspired by{' '}
+            <a
+              href="https://reliabilityiq.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#0A0A0A] font-semibold underline hover:text-black transition-colors inline-flex items-center gap-0.5"
+            >
+              <span>ReliabilityIQ Ventures</span>
+            </a>
+          </p>
         </div>
 
       </div>
